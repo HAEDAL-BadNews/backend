@@ -6,20 +6,18 @@ import com.example.news_backend.packet.requestbody.LoginRequestBody;
 import com.example.news_backend.packet.responsebody.LoginResponseBody;
 import com.example.news_backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin(allowedHeaders = "*")
+@RequestMapping
 public class UserController {
 
-    private UserService userSerive;
+    private UserService userService;
 
     @Autowired  //
-    public UserController(UserService userSerive){
-        this.userSerive = userSerive;
+    public UserController(UserService userService){
+        this.userService = userService;
     }
 
     @PostMapping("/login")
@@ -28,7 +26,16 @@ public class UserController {
         user.setId(requestBody.getId());
         user.setPassword(requestBody.getPassword());
 
-        return userSerive.login(user);
+        return userService.login(user);
+    }
+
+    @PostMapping("/signup")
+    public LoginResponseBody signup(@RequestBody LoginRequestBody requestBody){
+        User user = new User();
+        user.setId(requestBody.getId());
+        user.setPassword(requestBody.getPassword());
+
+        return userService.signup(user);
     }
 
 }
