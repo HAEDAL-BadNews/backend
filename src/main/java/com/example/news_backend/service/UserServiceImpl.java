@@ -17,7 +17,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public LoginResponseBody login(User user) {
         LoginResponseBody responseBody = new LoginResponseBody();
-        if(!userRepository.findById(user.getId()).isPresent()){
+        if(userRepository.findByIdAndPassword(user.getId(), user.getPassword()).isPresent()){
             responseBody.setId(user.getId());
             responseBody.setResult(true);
         }
