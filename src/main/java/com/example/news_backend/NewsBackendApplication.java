@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class NewsBackendApplication {
-	// test
+
 	public static void main(String[] args) {
 		SpringApplication.run(NewsBackendApplication.class, args);
 	}
