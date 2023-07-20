@@ -25,12 +25,14 @@ public class Article {
     private String author;
     private LocalDate article_date;
     private boolean scrap;
-    @Enumerated(EnumType.STRING)
-    private Category category;
+    private String category;
     @ElementCollection(fetch = FetchType.LAZY)
     private Set<String> keyword = new HashSet<>();
     private LocalDate now;
 
+    public boolean getScrap() {
+        return this.scrap;
+    }
 }
 
 
