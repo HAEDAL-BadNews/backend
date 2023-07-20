@@ -1,5 +1,6 @@
 package com.example.news_backend.packet.responsebody;
 
+import com.example.news_backend.domain.Image;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -18,5 +19,6 @@ public class ReturnArticleDto {
     private String date;
     private String category;
     private String userId;
-    //private Set<String> keywords = new HashSet<>();
+    private Set<String> keywords = new HashSet<>();
+
 }
