@@ -23,22 +23,17 @@ public class Article {
     private String context;
     private String url;
     private String author;
+
+    @OneToOne
+    @JoinColumn(name = "image_id")
+    private Image image;
     private LocalDate article_date;
     private boolean scrap;
     private String category;
     @ElementCollection(fetch = FetchType.LAZY)
     private Set<String> keyword = new HashSet<>();
     private LocalDate now;
-
     public boolean getScrap() {
         return this.scrap;
     }
-}
-
-
-enum Category{
-    sport,
-    economy,
-    social,
-    IT
 }

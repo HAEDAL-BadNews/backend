@@ -17,6 +17,6 @@ public class ArticleResponseBody {
     private String url;
     private LocalDate date;
     private String category;
-    //private Set<String> keywords = new HashSet<>();
+    private Set<String> keywords = new HashSet<>();
     private boolean scrap;
 }
