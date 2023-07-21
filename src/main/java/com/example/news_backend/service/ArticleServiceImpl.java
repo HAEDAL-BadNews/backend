@@ -5,17 +5,14 @@ import com.example.news_backend.domain.Image;
 import com.example.news_backend.packet.requestbody.ArticleRequestBody;
 import com.example.news_backend.packet.requestbody.ImageRequestBody;
 import com.example.news_backend.packet.responsebody.ArticleResponseBody;
-import com.example.news_backend.packet.responsebody.ImageResponseBody;
 import com.example.news_backend.packet.responsebody.ReturnArticleDto;
 import com.example.news_backend.repository.ArticleRepository;
-import com.example.news_backend.repository.UserRepository;
 import jakarta.servlet.ServletContext;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,6 +21,8 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
@@ -34,7 +33,6 @@ public class ArticleServiceImpl implements ArticleService{
     }
     @Autowired
     private ServletContext servletContext;
-
 
 
     @Override
@@ -70,6 +68,32 @@ public class ArticleServiceImpl implements ArticleService{
     }
 
     @Override
+    public List<ArticleResponseBody> show_scrapedArticle(ArticleRequestBody requestBody) {
+
+        // findByUserIdAndScrap
+        List<Article> scrapedArticles = articleRepository.findAllByUserId(requestBody.getUserId())
+                .stream().filter(a -> a.getScrap() == true).toList();
+
+        List<ArticleResponseBody> responseBodies = new ArrayList<>();
+        for (int i = 0; i < scrapedArticles.size(); ++i) {
+            ArticleResponseBody responseBody = new ArticleResponseBody();
+
+            responseBody.setTitle(scrapedArticles.get(i).getTitle());
+            responseBody.setContext(scrapedArticles.get(i).getContext());
+            responseBody.setAuthor(scrapedArticles.get(i).getAuthor());
+            responseBody.setUrl(scrapedArticles.get(i).getUrl());
+            responseBody.setDate(scrapedArticles.get(i).getArticle_date());
+            responseBody.setCategory(scrapedArticles.get(i).getCategory());
+            responseBody.setKeywords(scrapedArticles.get(i).getKeyword());
+            responseBody.setScrap(scrapedArticles.get(i).getScrap());
+
+            responseBodies.add(responseBody);
+        }
+
+        return responseBodies;
+    }
+
+    @Override
     public ArticleResponseBody call_python(@NotNull ArticleRequestBody requestBody) {
         ArticleResponseBody responseBody;
         ReturnArticleDto articleDto;
@@ -89,7 +113,6 @@ public class ArticleServiceImpl implements ArticleService{
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<String> requestEntity = new HttpEntity<>(request, headers);
         ResponseEntity<ReturnArticleDto> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity,ReturnArticleDto.class);
-
         articleDto = responseEntity.getBody();
         article = toEntity(articleDto);
 
