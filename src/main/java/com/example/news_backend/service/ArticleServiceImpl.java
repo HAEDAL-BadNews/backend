@@ -5,6 +5,7 @@ import com.example.news_backend.domain.Image;
 import com.example.news_backend.packet.requestbody.ArticleRequestBody;
 import com.example.news_backend.packet.requestbody.ImageRequestBody;
 import com.example.news_backend.packet.responsebody.ArticleResponseBody;
+import com.example.news_backend.packet.responsebody.ImageResponseBody;
 import com.example.news_backend.packet.responsebody.ReturnArticleDto;
 import com.example.news_backend.repository.ArticleRepository;
 import jakarta.servlet.ServletContext;
@@ -85,12 +86,15 @@ public class ArticleServiceImpl implements ArticleService{
             responseBody.setCategory(scrapedArticles.get(i).getCategory());
             responseBody.setKeywords(scrapedArticles.get(i).getKeyword());
             responseBody.setScrap(scrapedArticles.get(i).getScrap());
+            responseBody.setImage(scrapedArticles.get(i).getImage());
 
             responseBodies.add(responseBody);
         }
 
         return responseBodies;
     }
+
+
 
     @Override
     public ArticleResponseBody call_python(@NotNull ArticleRequestBody requestBody) {
@@ -99,7 +103,7 @@ public class ArticleServiceImpl implements ArticleService{
         Article article;
 
         //임시 포트번호 3000
-        String url = "http://127.0.0.1:3000/article/save";
+        String url = "http://127.0.0.1:5000/article/save";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
@@ -144,7 +148,7 @@ public class ArticleServiceImpl implements ArticleService{
     @ResponseBody
     public Image mapping_image(ImageRequestBody requestBody){
         //python에서 받아와서
-        String url = "http://127.0.0.1:3000/article/image";
+        String url = "http://127.0.0.1:5000/article/image";
 
         ImageResponseBody image_file;
 
@@ -169,6 +173,35 @@ public class ArticleServiceImpl implements ArticleService{
 
         //이미지 정보 전달
         return image;
+    }
+
+
+    @Override
+    public List<ArticleResponseBody> category_get(ArticleRequestBody requestBody) {
+        //userId
+        //category
+        //sort
+        List<Article> scrapedArticles = articleRepository.findAllByCategory(requestBody.getCategory());
+
+        List<ArticleResponseBody> responseBodies = new ArrayList<>();
+        for (int i = 0; i < scrapedArticles.size(); ++i) {
+            ArticleResponseBody responseBody = new ArticleResponseBody();
+
+            responseBody.setTitle(scrapedArticles.get(i).getTitle());
+            responseBody.setContext(scrapedArticles.get(i).getContext());
+            responseBody.setAuthor(scrapedArticles.get(i).getAuthor());
+            responseBody.setUrl(scrapedArticles.get(i).getUrl());
+            responseBody.setDate(scrapedArticles.get(i).getArticle_date());
+            responseBody.setCategory(scrapedArticles.get(i).getCategory());
+            responseBody.setKeywords(scrapedArticles.get(i).getKeyword());
+            responseBody.setScrap(scrapedArticles.get(i).getScrap());
+            responseBody.setImage(scrapedArticles.get(i).getImage());
+
+            responseBodies.add(responseBody);
+        }
+
+        return responseBodies;
+
     }
 
 }
