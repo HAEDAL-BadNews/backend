@@ -11,4 +11,5 @@ public interface ArticleService {
     ArticleResponseBody save_article(Article article);
     List<ArticleResponseBody> show_scrapedArticle(ArticleRequestBody requestBody);
     List<ArticleResponseBody> category_get(ArticleRequestBody requestBody);
+    ArticleResponseBody change_scrap(Long id);
 }
