@@ -39,19 +39,18 @@ public class ArticleServiceImpl implements ArticleService{
     public ArticleResponseBody save_article(Article article) {
         ArticleResponseBody responseBody = new ArticleResponseBody();
 
-
         ImageRequestBody imageRequest = new ImageRequestBody();
-
-        //여기서 이미지 정보 받아오는 함수 호출
-        imageRequest.setId(1L);
-        imageRequest.setContext(article.getContext());
-
-        System.out.print(imageRequest);
-        //article.setImage(mapping_image(imageRequest));
 
         if(!articleRepository.findByUserIdAndTitle(article.getUserId(), article.getTitle()).isPresent()){
             articleRepository.save(article);
         }
+
+        //여기서 이미지 정보 받아오는 함수 호출
+        imageRequest.setId(article.getId());
+        imageRequest.setContext(article.getContext());
+
+        article.setImage(mapping_image(imageRequest));
+        articleRepository.save(article);
 
         responseBody.setTitle(article.getTitle());
         responseBody.setContext(article.getContext());
@@ -135,6 +134,7 @@ public class ArticleServiceImpl implements ArticleService{
         article.setKeyword(articleDto.getKeywords());
         article.setScrap(false);
         article.setNow(LocalDate.now());
+        article.setUserId(articleDto.getUserId());
 
 
         return article;
@@ -146,7 +146,7 @@ public class ArticleServiceImpl implements ArticleService{
         //python에서 받아와서
         String url = "http://127.0.0.1:3000/article/image";
 
-        MultipartFile image_file;
+        ImageResponseBody image_file;
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -160,26 +160,12 @@ public class ArticleServiceImpl implements ArticleService{
 
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<String> requestEntity = new HttpEntity<>(request, headers);
-        ResponseEntity<MultipartFile> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, MultipartFile.class);
+        ResponseEntity<ImageResponseBody> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, ImageResponseBody.class);
+        image_file = responseEntity.getBody();
 
         Image image = new Image();
-
-
-        try{
-            //./image/{filename}으로 저장
-            image_file = responseEntity.getBody();
-            String resourceSrc = servletContext.getRealPath("/images");
-            String resourceName = image_file.getOriginalFilename();
-
-            image.setId(Long.parseLong(resourceName));
-            image.setPath(resourceSrc);
-
-            image_file.transferTo(new File(resourceSrc+resourceName));
-        }
-        catch (IOException e){
-            return null;
-        }
-
+        image.setId(image_file.getId());
+        image.setPath(image_file.getPath());
 
         //이미지 정보 전달
         return image;
