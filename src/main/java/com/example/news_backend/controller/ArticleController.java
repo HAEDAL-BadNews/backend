@@ -38,4 +38,10 @@ public class ArticleController {
         return articleService.category_get(requestBody);
     }
 
+    @GetMapping("/scrap/update")
+    public ArticleResponseBody change_scrap(@RequestParam Long id){
+        return articleService.change_scrap(id);
+
+    }
+
 }
