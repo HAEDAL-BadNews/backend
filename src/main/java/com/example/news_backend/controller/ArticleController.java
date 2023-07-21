@@ -25,8 +25,4 @@ public class ArticleController {
         return articleService.call_python(requestBody);
     }
 
-//    public MultipartFile recv_image(@RequestBody ImageRequestBody requestBody){
-//        return
-//    }
-
 }
