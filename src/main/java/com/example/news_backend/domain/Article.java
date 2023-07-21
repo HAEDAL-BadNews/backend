@@ -24,7 +24,7 @@ public class Article {
     private String url;
     private String author;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "image_id")
     private Image image;
     private LocalDate article_date;

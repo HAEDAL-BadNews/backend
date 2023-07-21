@@ -6,5 +6,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class ImageResponseBody {
-    private MultipartFile image;
+    private String path;
+    private Long id;
 }
