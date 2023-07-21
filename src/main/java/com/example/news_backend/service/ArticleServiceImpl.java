@@ -24,6 +24,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -202,6 +203,30 @@ public class ArticleServiceImpl implements ArticleService{
 
         return responseBodies;
 
+    }
+
+    @Override
+    public ArticleResponseBody change_scrap(Long id) {
+        Optional<Article> articleOp = articleRepository.findById(id);
+        Article article = articleOp.get();
+        article.setScrap(!article.getScrap());
+        articleRepository.save(article);
+
+        ArticleResponseBody responseBody = new ArticleResponseBody();
+
+        responseBody.setTitle(article.getTitle());
+        responseBody.setContext(article.getContext());
+        responseBody.setAuthor(article.getAuthor());
+        responseBody.setUrl(article.getUrl());
+        responseBody.setDate(article.getArticle_date());
+        responseBody.setCategory(article.getCategory());
+        responseBody.setKeywords(article.getKeyword());
+        responseBody.setScrap(article.getScrap());
+        responseBody.setImage(article.getImage());
+
+
+
+        return responseBody;
     }
 
 }
