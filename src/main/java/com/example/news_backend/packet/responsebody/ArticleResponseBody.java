@@ -1,6 +1,7 @@
 package com.example.news_backend.packet.responsebody;
 
 
+import com.example.news_backend.domain.Image;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -19,4 +20,5 @@ public class ArticleResponseBody {
     private String category;
     private Set<String> keywords = new HashSet<>();
     private boolean scrap;
+    private Image image;
 }

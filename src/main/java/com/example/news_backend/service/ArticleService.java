@@ -10,4 +10,5 @@ public interface ArticleService {
     ArticleResponseBody call_python(ArticleRequestBody requestBody);
     ArticleResponseBody save_article(Article article);
     List<ArticleResponseBody> show_scrapedArticle(ArticleRequestBody requestBody);
+    List<ArticleResponseBody> category_get(ArticleRequestBody requestBody);
 }

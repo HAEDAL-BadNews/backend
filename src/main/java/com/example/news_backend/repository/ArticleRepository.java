@@ -9,6 +9,6 @@ import java.util.Optional;
 public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     List<Article> findAllByUserId(String userId);
-
     Optional<Article> findByUserIdAndTitle(String userId, String title);
+    List<Article> findAllByCategory(String category);
 }

@@ -7,6 +7,7 @@ import com.example.news_backend.packet.responsebody.ImageResponseBody;
 import com.example.news_backend.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -32,8 +33,9 @@ public class ArticleController {
     }
 
 
-//    public MultipartFile recv_image(@RequestBody ImageRequestBody requestBody){
-//        return
-//    }
+    @PostMapping("/category")
+    public List<ArticleResponseBody> recv_image(@RequestBody ArticleRequestBody requestBody){
+        return articleService.category_get(requestBody);
+    }
 
 }
