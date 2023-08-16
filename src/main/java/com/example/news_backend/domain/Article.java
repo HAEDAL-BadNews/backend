@@ -16,7 +16,8 @@ import java.util.Set;
 @NoArgsConstructor
 public class Article {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "article_generator")
+    @SequenceGenerator(name = "article_generator", sequenceName = "article_seq", allocationSize = 1)
     private Long id;
     private String userId;
     private String title;
