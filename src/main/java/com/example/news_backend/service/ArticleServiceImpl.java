@@ -104,7 +104,7 @@ public class ArticleServiceImpl implements ArticleService{
         Article article;
 
         //임시 포트번호 3000
-        String url = "http://127.0.0.1:5000/article/save";
+        String url = "http://15.165.122.3:8000/article/save";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
@@ -149,7 +149,7 @@ public class ArticleServiceImpl implements ArticleService{
     @ResponseBody
     public Image mapping_image(ImageRequestBody requestBody){
         //python에서 받아와서
-        String url = "http://127.0.0.1:5000/article/image";
+        String url = "http://15.165.122.3:8000/article/image";
 
         ImageResponseBody image_file;
 
