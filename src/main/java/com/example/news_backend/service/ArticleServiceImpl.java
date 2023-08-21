@@ -51,8 +51,8 @@ public class ArticleServiceImpl implements ArticleService{
         imageRequest.setId(article.getId());
         imageRequest.setContext(article.getContext());
 
-        article.setImage(mapping_image(imageRequest));
-        articleRepository.save(article);
+//        article.setImage(mapping_image(imageRequest));
+//        articleRepository.save(article);
 
         responseBody.setTitle(article.getTitle());
         responseBody.setContext(article.getContext());
