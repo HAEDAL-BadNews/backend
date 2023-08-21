@@ -13,15 +13,21 @@
 | [<img src="https://github.com/kwonssshyeon.png" width="100px">](https://github.com/kwonssshyeon) | [<img src="https://github.com/rnjs5540.png" width="100px">](https://github.com/rnjs5540) | [<img src="https://github.com/dobbymin.png" width="100px">](https://github.com/dobbymin) | [<img src="https://github.com/joojjang.png" width="100px">](https://github.com/joojjang) | 
 | 백엔드 | 백엔드 | 프론트엔드 | 프론트엔드 | 
 <br>
-<br>
 
 ## 배포링크
-백엔드 서버 : http://13.124.161.27:8080/
+> 백엔드 서버 : http://13.124.161.27:8080/
+> <br>
+> ai 서버 : http://15.165.122.3:8000/
+> <br>
+> 프론트엔드 서버 : 
 <br>
-ai 서버 : http://15.165.122.3:8000/
-<br>
-프론트엔드 서버 : 
-<br>
+
+## 프로젝트 주소
+> 백엔드 : https://github.com/KNU-HAEDAL/BadNews-backend
+> <br>
+> ai : https://github.com/KNU-HAEDAL/BadNews-ai
+> <br>
+> 프론트엔드 : https://github.com/KNU-HAEDAL/BadNews-frontend
 <br>
 
 
@@ -40,15 +46,6 @@ ai 서버 : http://15.165.122.3:8000/
 <br>
 <br>
 
-## 개발기간
-- 1차 : 2023.07.19 ~ 2023.07.22
-- 2차 : 2023.08.16 ~
-<br>
-<br>
-
-## 개발환경
-<br>
-<br>
 
 ## 프로젝트 설명
 <br>
@@ -56,4 +53,22 @@ ai 서버 : http://15.165.122.3:8000/
 
 ## 프로젝트 구조
 ![프젝구조도](https://github.com/KNU-HAEDAL/BadNews-backend/assets/104684033/312c0981-5e49-41f5-9907-05a3842d3681)
+<br>
+<br>
+
+## 개발기간
+- 1차 : 2023.07.19 ~ 2023.07.22
+- 2차 : 2023.08.16 ~
+<br>
+<br>
+
+## 개발환경
+- Spring boot : 3.1.1
+- Gradle
+- JDK : 17
+- Mariadb : 10.6.14
+  
+<br>
+<br>
+
 
