@@ -107,7 +107,7 @@ public class ArticleServiceImpl implements ArticleService{
         List<Article> article;
 
         //임시 포트번호 3000
-        String url = "http://127.0.0.1:8000/article/save";
+        String url = "http://15.165.122.3:8000/article/save";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
