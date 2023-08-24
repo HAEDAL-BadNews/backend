@@ -12,6 +12,7 @@ import jakarta.servlet.ServletContext;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -38,34 +39,36 @@ public class ArticleServiceImpl implements ArticleService{
 
 
     @Override
-    public ArticleResponseBody save_article(Article article) {
-        ArticleResponseBody responseBody = new ArticleResponseBody();
+    public List<ArticleResponseBody> save_article(List<Article> article) {
+        List<ArticleResponseBody> responseBodies = new ArrayList<>();
+        for (int i = 0; i < article.size(); ++i){
+            ArticleResponseBody responseBody = new ArticleResponseBody();
+            ImageRequestBody imageRequest = new ImageRequestBody();
 
-        ImageRequestBody imageRequest = new ImageRequestBody();
+            if(!articleRepository.findByUserIdAndTitle(article.get(i).getUserId(), article.get(i).getTitle()).isPresent()){
+                articleRepository.save(article.get(i));
+            }
 
-        if(!articleRepository.findByUserIdAndTitle(article.getUserId(), article.getTitle()).isPresent()){
-            articleRepository.save(article);
-        }
-
-        //여기서 이미지 정보 받아오는 함수 호출
-        imageRequest.setId(article.getId());
-        imageRequest.setContext(article.getContext());
+            //여기서 이미지 정보 받아오는 함수 호출
+            imageRequest.setId(article.get(i).getId());
+            imageRequest.setContext(article.get(i).getContext());
 
 //        article.setImage(mapping_image(imageRequest));
 //        articleRepository.save(article);
 
-        responseBody.setTitle(article.getTitle());
-        responseBody.setContext(article.getContext());
-        responseBody.setAuthor(article.getAuthor());
-        responseBody.setUrl(article.getUrl());
-        responseBody.setDate(article.getArticle_date());
-        responseBody.setCategory(article.getCategory());
-        responseBody.setKeywords(article.getKeyword());
-        responseBody.setScrap(article.getScrap());
+            responseBody.setTitle(article.get(i).getTitle());
+            responseBody.setContext(article.get(i).getContext());
+            responseBody.setAuthor(article.get(i).getAuthor());
+            responseBody.setUrl(article.get(i).getUrl());
+            responseBody.setDate(article.get(i).getArticle_date());
+            responseBody.setCategory(article.get(i).getCategory());
+            responseBody.setKeywords(article.get(i).getKeyword());
+            responseBody.setScrap(article.get(i).getScrap());
 
+            responseBodies.add(responseBody);
+        }
 
-
-        return responseBody;
+        return responseBodies;
     }
 
     @Override
@@ -98,13 +101,13 @@ public class ArticleServiceImpl implements ArticleService{
 
 
     @Override
-    public ArticleResponseBody call_python(@NotNull ArticleRequestBody requestBody) {
-        ArticleResponseBody responseBody;
-        ReturnArticleDto articleDto;
-        Article article;
+    public List<ArticleResponseBody> call_python(@NotNull ArticleRequestBody requestBody) {
+        List<ArticleResponseBody> responseBody;
+        List<ReturnArticleDto> articleDto;
+        List<Article> article;
 
         //임시 포트번호 3000
-        String url = "http://15.165.122.3:8000/article/save";
+        String url = "http://127.0.0.1:8000/article/save";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
@@ -116,7 +119,7 @@ public class ArticleServiceImpl implements ArticleService{
 
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<String> requestEntity = new HttpEntity<>(request, headers);
-        ResponseEntity<ReturnArticleDto> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity,ReturnArticleDto.class);
+        ResponseEntity<List<ReturnArticleDto>> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity,new ParameterizedTypeReference<List<ReturnArticleDto>>() {});
         articleDto = responseEntity.getBody();
         article = toEntity(articleDto);
 
@@ -125,24 +128,31 @@ public class ArticleServiceImpl implements ArticleService{
         return responseBody;
     }
 
-    public Article toEntity(ReturnArticleDto articleDto){
+    public List<Article> toEntity(List<ReturnArticleDto> articleDto){
         //userId, dated;
-        Article article = new Article();
+        List<Article> articles = new ArrayList<>();
 
-        article.setTitle(articleDto.getTitle());
-        article.setContext(articleDto.getContext());
-        article.setAuthor(articleDto.getAuthor());
-        article.setUrl(articleDto.getUrl());
-        article.setArticle_date(LocalDate.parse(articleDto.getDate(), DateTimeFormatter.ISO_DATE));
-        article.setCategory(articleDto.getCategory());
-        article.setUserId(articleDto.getUserId());
-        article.setKeyword(articleDto.getKeywords());
-        article.setScrap(false);
-        article.setNow(LocalDate.now());
-        article.setUserId(articleDto.getUserId());
+        for (int i = 0; i < articleDto.size(); ++i){
+            Article article = new Article();
+
+            article.setTitle(articleDto.get(i).getTitle());
+            article.setContext(articleDto.get(i).getContext());
+            article.setAuthor(articleDto.get(i).getAuthor());
+            article.setUrl(articleDto.get(i).getUrl());
+            article.setArticle_date(LocalDate.parse(articleDto.get(i).getDate(), DateTimeFormatter.ISO_DATE));
+            article.setCategory(articleDto.get(i).getCategory());
+            article.setUserId(articleDto.get(i).getUserId());
+            article.setKeyword(articleDto.get(i).getKeywords());
+            article.setScrap(false);
+            article.setNow(LocalDate.now());
+            article.setUserId(articleDto.get(i).getUserId());
+
+            articles.add(article);
+        }
 
 
-        return article;
+
+        return articles;
     }
 
 

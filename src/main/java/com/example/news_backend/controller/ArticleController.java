@@ -23,7 +23,7 @@ public class ArticleController {
     }
 
     @PostMapping("/save")
-    public ArticleResponseBody save_article(@RequestBody ArticleRequestBody requestBody){
+    public List<ArticleResponseBody> save_article(@RequestBody ArticleRequestBody requestBody){
         return articleService.call_python(requestBody);
     }
 
