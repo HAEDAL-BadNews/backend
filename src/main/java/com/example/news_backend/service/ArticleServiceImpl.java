@@ -45,17 +45,25 @@ public class ArticleServiceImpl implements ArticleService{
         for (int i = 0; i < article.size(); ++i){
             ArticleResponseBody responseBody = new ArticleResponseBody();
             ImageRequestBody imageRequest = new ImageRequestBody();
+            Image image = new Image();
+
+            String path = article.get(i).getImage().getPath();
+            article.get(i).setImage(null);
 
             if(!articleRepository.findByUserIdAndTitle(article.get(i).getUserId(), article.get(i).getTitle()).isPresent()){
                 articleRepository.save(article.get(i));
             }
 
-            //여기서 이미지 정보 받아오는 함수 호출
-            imageRequest.setId(article.get(i).getId());
-            imageRequest.setContext(article.get(i).getContext());
+//            여기서 이미지 정보 받아오는 함수 호출
+//            imageRequest.setId(article.get(i).getId());
+//            imageRequest.setContext(article.get(i).getContext());
+//            article.setImage(mapping_image(imageRequest));
+//            articleRepository.save(article);
 
-//        article.setImage(mapping_image(imageRequest));
-//        articleRepository.save(article);
+            image.setId(article.get(i).getId());
+            image.setPath(path);
+            article.get(i).setImage(image);
+            responseBody.setImage(image);
 
             responseBody.setTitle(article.get(i).getTitle());
             responseBody.setContext(article.get(i).getContext());
@@ -65,6 +73,8 @@ public class ArticleServiceImpl implements ArticleService{
             responseBody.setCategory(article.get(i).getCategory());
             responseBody.setKeywords(article.get(i).getKeyword());
             responseBody.setScrap(article.get(i).getScrap());
+
+            articleRepository.save(article.get(i));
 
             responseBodies.add(responseBody);
         }
@@ -123,7 +133,9 @@ public class ArticleServiceImpl implements ArticleService{
         HttpEntity<String> requestEntity = new HttpEntity<>(request, headers);
         ResponseEntity<List<ReturnArticleDto>> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity,new ParameterizedTypeReference<List<ReturnArticleDto>>() {});
         articleDto = responseEntity.getBody();
+
         article = toEntity(articleDto);
+
 
 
         responseBody = save_article(article);
@@ -136,6 +148,7 @@ public class ArticleServiceImpl implements ArticleService{
 
         for (int i = 0; i < articleDto.size(); ++i){
             Article article = new Article();
+            Image image = new Image();
 
             article.setTitle(articleDto.get(i).getTitle());
             article.setContext(articleDto.get(i).getContext());
@@ -148,6 +161,10 @@ public class ArticleServiceImpl implements ArticleService{
             article.setScrap(false);
             article.setNow(LocalDate.now());
             article.setUserId(articleDto.get(i).getUserId());
+
+
+            image.setPath(articleDto.get(i).getImage().getPath());
+            article.setImage(image);
 
             articles.add(article);
         }
