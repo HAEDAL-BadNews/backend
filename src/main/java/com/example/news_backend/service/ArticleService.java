@@ -7,7 +7,7 @@ import com.example.news_backend.packet.responsebody.ArticleResponseBody;
 import java.util.List;
 
 public interface ArticleService {
-    List<ArticleResponseBody> call_python(ArticleRequestBody requestBody);
+    List<ArticleResponseBody> call_python(ArticleRequestBody requestBody, String url);
     List<ArticleResponseBody> save_article(List<Article> article);
     List<ArticleResponseBody> show_scrapedArticle(ArticleRequestBody requestBody);
     List<ArticleResponseBody> category_get(ArticleRequestBody requestBody);

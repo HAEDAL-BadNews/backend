@@ -24,7 +24,14 @@ public class ArticleController {
 
     @PostMapping("/save")
     public List<ArticleResponseBody> save_article(@RequestBody ArticleRequestBody requestBody){
-        return articleService.call_python(requestBody);
+        String url = "http://15.165.122.3:8000/article/save";
+        return articleService.call_python(requestBody,url);
+    }
+
+    @PostMapping("/home")
+    public List<ArticleResponseBody> home_article(@RequestBody ArticleRequestBody requestBody){
+        String url = "http://15.165.122.3:8000/article/home";
+        return articleService.call_python(requestBody,url);
     }
 
     @PostMapping("/scrap")

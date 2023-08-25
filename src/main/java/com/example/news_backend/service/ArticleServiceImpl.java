@@ -112,13 +112,13 @@ public class ArticleServiceImpl implements ArticleService{
 
 
     @Override
-    public List<ArticleResponseBody> call_python(@NotNull ArticleRequestBody requestBody) {
+    public List<ArticleResponseBody> call_python(@NotNull ArticleRequestBody requestBody,String url) {
         List<ArticleResponseBody> responseBody;
         List<ReturnArticleDto> articleDto;
         List<Article> article;
 
         //임시 포트번호 3000
-        String url = "http://15.165.122.3:8000/article/save";
+//        String url = "http://15.165.122.3:8000/article/save";
 //        String url = "http://127.0.0.1:8000/article/save";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
