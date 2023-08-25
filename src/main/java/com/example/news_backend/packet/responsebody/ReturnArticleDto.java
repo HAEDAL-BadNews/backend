@@ -21,4 +21,6 @@ public class ReturnArticleDto {
     private String userId;
     private Set<String> keywords = new HashSet<>();
 
+    private Image image;
+
 }
