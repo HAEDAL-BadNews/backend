@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,7 +29,7 @@ public class Article {
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "image_id")
     private Image image;
-    private LocalDate article_date;
+    private LocalDateTime article_date;
     private boolean scrap;
     private String category;
     @ElementCollection(fetch = FetchType.LAZY)

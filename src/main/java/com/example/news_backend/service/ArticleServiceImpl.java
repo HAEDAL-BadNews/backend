@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -107,7 +108,8 @@ public class ArticleServiceImpl implements ArticleService{
         List<Article> article;
 
         //임시 포트번호 3000
-        String url = "http://15.165.122.3:8000/article/save";
+        // String url = "http://15.165.122.3:8000/article/save";
+        String url = "http://127.0.0.1:8000/article/save";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
@@ -139,7 +141,7 @@ public class ArticleServiceImpl implements ArticleService{
             article.setContext(articleDto.get(i).getContext());
             article.setAuthor(articleDto.get(i).getAuthor());
             article.setUrl(articleDto.get(i).getUrl());
-            article.setArticle_date(LocalDate.parse(articleDto.get(i).getDate(), DateTimeFormatter.ISO_DATE));
+            article.setArticle_date(LocalDateTime.parse(articleDto.get(i).getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
             article.setCategory(articleDto.get(i).getCategory());
             article.setUserId(articleDto.get(i).getUserId());
             article.setKeyword(articleDto.get(i).getKeywords());

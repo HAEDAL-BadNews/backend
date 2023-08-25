@@ -5,6 +5,7 @@ import com.example.news_backend.domain.Image;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -16,7 +17,7 @@ public class ArticleResponseBody {
     private String context;
     private String author;
     private String url;
-    private LocalDate date;
+    private LocalDateTime date;
     private String category;
     private Set<String> keywords = new HashSet<>();
     private boolean scrap;
