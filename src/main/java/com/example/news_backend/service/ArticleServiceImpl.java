@@ -50,9 +50,8 @@ public class ArticleServiceImpl implements ArticleService{
             String path = article.get(i).getImage().getPath();
             article.get(i).setImage(null);
 
-            if(!articleRepository.findByUserIdAndTitle(article.get(i).getUserId(), article.get(i).getTitle()).isPresent()){
-                articleRepository.save(article.get(i));
-            }
+            articleRepository.save(article.get(i));
+
 
 //            여기서 이미지 정보 받아오는 함수 호출
 //            imageRequest.setId(article.get(i).getId());
