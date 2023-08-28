@@ -177,7 +177,7 @@ public class ArticleServiceImpl implements ArticleService{
     @ResponseBody
     public Image mapping_image(ImageRequestBody requestBody){
         //python에서 받아와서
-        String url = "http://15.165.122.3:8000/article/image";
+        String url = "http://52.79.232.166:8000/article/image";
 
         ImageResponseBody image_file;
 
