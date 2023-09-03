@@ -19,6 +19,7 @@ bin/
 
 ### IntelliJ IDEA ###
 application-rds.properties
+application-cookie.properties
 
 .idea
 *.iws
